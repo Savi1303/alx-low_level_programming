@@ -2,49 +2,44 @@
 #include <stdlib.h>
 
 /**
- * print_opcodes - print out each opcode in hexadecimal format
- * @start: start of hex
- * @n_bytes: number of bytes
- */
+*main -  program that prints the opcodes of its own main function.
+*@argc: number of arguments passed to the program
+*@argv: array of arguments
+*
+*Return: on success, 1 or 2 in case of failure
+*/
 
-void print_opcodes(char *start, int n_bytes)
+int main(int argc, char *argv[])
 {
-	int i;
 
-	for (i = 0; i < n_bytes; i++)
-	{
-		printf("%02hhx ", start[i] & 0xff);
-	}
-	printf("\n");
+int index, bytes;
+int (*address)(int, char **) = main;
+unsigned char opcode;
+
+if (argc != 2)
+{
+printf("Error\n");
+exit(1);
 }
-/**
- * main - entry point
- * @argc: number of parameters
- *
- * @argv: array of parameters
- * Return: 0 in success otherwise Error
- */
 
-int main(int argc, char **argv)
+bytes = atoi(argv[1]);
+
+if (bytes < 0)
 {
-	int n_bytes;
-	char *start;
+printf("Error\n");
+exit(2);
+}
 
-	if (argc != 2)
-	{
-		printf("Error\n");
-		return (1);
-	}
+for (index = 0; index <  bytes; index++)
+{
+opcode = *(unsigned char *)address;
+printf("%.2x", opcode);
 
-	n_bytes = atoi(argv[1]);
-	if (n_bytes < 0)
-	{
-		printf("Error\n");
-		return (2);
-	}
-
-	start = (char *)main;
-	print_opcodes(start, n_bytes);
-
-	return (0);
+if (index == bytes - 1)
+continue;
+printf(" ");
+address++;
+}
+printf("\n");
+return (0);
 }
